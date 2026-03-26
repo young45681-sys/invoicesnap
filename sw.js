@@ -1,8 +1,10 @@
 const CACHE_NAME = 'invoicesnap-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json'
+  '/invoicesnap/',
+  '/invoicesnap/index.html',
+  '/invoicesnap/manifest.json',
+  '/invoicesnap/icon-192.png',
+  '/invoicesnap/icon-512.png'
 ];
 
 self.addEventListener('install', e => {
