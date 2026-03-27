@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0044)file:///C:/Users/User/Downloads/index_1.html -->
+<!-- saved from url=(0044)file:///C:/Users/User/Downloads/index_2.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -541,7 +541,7 @@
 <!-- ═══════════════ HOME SCREEN ═══════════════ -->
 <div class="screen active" id="screen-home">
   <div class="status-bar">
-    <span id="clock">1:28</span>
+    <span id="clock">2:04</span>
     <span>●●● 5G 🔋</span>
   </div>
   <div class="home-header">
@@ -638,7 +638,7 @@
 <!-- ═══════════════ CAMERA SCREEN ═══════════════ -->
 <div class="screen" id="screen-camera">
   <div class="status-bar">
-    <span id="clock2">1:28</span>
+    <span id="clock2">2:04</span>
     <span>●●● 5G 🔋</span>
   </div>
   <div class="screen-header">
@@ -817,7 +817,7 @@
         <div class="settings-item-icon">📊</div>
         <div class="settings-item-info">
           <div class="settings-item-label">Google Sheets ID</div>
-          <div class="settings-item-desc" id="sheetIdPreview">Not configured</div>
+          <div class="settings-item-desc" id="sheetIdPreview">1-6DV0NCrWGRiTyQV_WW…</div>
         </div>
         <div class="settings-item-arrow">›</div>
       </div>
@@ -825,7 +825,7 @@
         <div class="settings-item-icon">🔑</div>
         <div class="settings-item-info">
           <div class="settings-item-label">Google API Key</div>
-          <div class="settings-item-desc" id="apiKeyPreview">Not configured</div>
+          <div class="settings-item-desc" id="apiKeyPreview">AIzaSyCNvKCs…</div>
         </div>
         <div class="settings-item-arrow">›</div>
       </div>
@@ -1063,60 +1063,110 @@ async function analyzeReceipt() {
     await sleep(600);
   }
 
-  // Call Claude AI API for real analysis
+  // Call Google Vision API for OCR
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const apiKey = localStorage.getItem('sheetsApiKey');
+    if (!apiKey) throw new Error('No API key');
+
+    // Step 1: Google Vision API - extract all text from image
+    const visionResp = await fetch(`https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            {
-              type: 'image',
-              source: { type: 'base64', media_type: 'image/jpeg', data: state.photoData.split(',')[1] }
-            },
-            {
-              type: 'text',
-              text: `You are an OCR and invoice data extraction AI. Analyze this receipt/invoice image and extract the following fields. If any field is not visible, make a reasonable guess or leave empty. Respond ONLY with valid JSON, no markdown or explanation:
-{
-  "invoiceNo": "receipt or invoice number",
-  "vendor": "business/vendor name",
-  "date": "YYYY-MM-DD format",
-  "total": 0.00,
-  "iva": 0.00,
-  "category": "one of: Meals & Entertainment, Travel & Transport, Office Supplies, Utilities, Professional Services, Other"
-}`
-            }
-          ]
+        requests: [{
+          image: { content: state.photoData.split(',')[1] },
+          features: [{ type: 'TEXT_DETECTION', maxResults: 1 }]
         }]
       })
     });
 
-    const data = await response.json();
-    const text = data.content?.[0]?.text || '{}';
-    const clean = text.replace(/```json|```/g, '').trim();
-    const extracted = JSON.parse(clean);
+    const visionData = await visionResp.json();
+    const extractedText = visionData.responses?.[0]?.fullTextAnnotation?.text || '';
 
-    document.getElementById('f-invoiceNo').value = extracted.invoiceNo || '';
-    document.getElementById('f-vendor').value = extracted.vendor || '';
-    document.getElementById('f-date').value = extracted.date || new Date().toISOString().split('T')[0];
-    document.getElementById('f-total').value = extracted.total || '';
-    document.getElementById('f-iva').value = extracted.iva || '';
-    const catSelect = document.getElementById('f-category');
-    for (let opt of catSelect.options) {
-      if (opt.value === extracted.category) { catSelect.value = extracted.category; break; }
+    if (!extractedText) throw new Error('No text found');
+
+    // Step 2: Parse the extracted text intelligently
+    const lines = extractedText.split('\n').map(l => l.trim()).filter(Boolean);
+
+    // Find vendor (usually first non-empty line or company name)
+    let vendor = lines[0] || 'Unknown';
+    // Clean up vendor name
+    vendor = vendor.replace(/S\.A\.|S\.L\.|SL|SA$/i, '').trim();
+
+    // Find invoice/receipt number
+    let invoiceNo = '';
+    for (const line of lines) {
+      const match = line.match(/(?:FACTURA|TICKET|RECIBO|INV|TKT|N[°º]?\.?)[\s:]*([A-Z0-9\-]+)/i);
+      if (match) { invoiceNo = match[1]; break; }
     }
+    if (!invoiceNo) {
+      const simplified = extractedText.match(/FACTURA SIMPLIFICADA[:\s]+([\w\-]+)/i);
+      if (simplified) invoiceNo = simplified[1];
+    }
+
+    // Find date
+    let date = new Date().toISOString().split('T')[0];
+    const dateMatch = extractedText.match(/(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})/);
+    if (dateMatch) {
+      const [_, d, m, y] = dateMatch;
+      const year = y.length === 2 ? '20' + y : y;
+      date = `${year}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;
+    }
+
+    // Find total amount
+    let total = 0;
+    const totalMatch = extractedText.match(/TOTAL[^\d]*(\d+[,\.](\d{2}))/i);
+    if (totalMatch) {
+      total = parseFloat(totalMatch[1].replace(',', '.'));
+    }
+
+    // Find IVA - look for IVA TOTAL or sum of IVA cuotas
+    let iva = 0;
+    // Try to find IVA CUOTA total (Spanish receipts)
+    const ivaLines = [...extractedText.matchAll(/(?:CUOTA|IVA)[^\d]*(\d+[,\.](\d{2}))/gi)];
+    if (ivaLines.length > 0) {
+      // Sum all IVA cuota amounts
+      let ivaSum = 0;
+      const seen = new Set();
+      for (const m of ivaLines) {
+        const val = parseFloat(m[1].replace(',', '.'));
+        const key = m[1];
+        if (!seen.has(key) && val < total) {
+          ivaSum += val;
+          seen.add(key);
+        }
+      }
+      if (ivaSum > 0) iva = parseFloat(ivaSum.toFixed(2));
+    }
+    // Fallback: 21% of total
+    if (iva === 0 && total > 0) iva = parseFloat((total * 0.21 / 1.21).toFixed(2));
+
+    // Auto-categorize based on vendor name
+    const vendorLower = vendor.toLowerCase() + extractedText.toLowerCase();
+    let category = 'Other';
+    if (/mercadona|supermercado|carrefour|lidl|aldi|restaurant|cafe|bar|food|comida|alimenta/i.test(vendorLower)) category = 'Meals & Entertainment';
+    else if (/renfe|taxi|uber|vueling|iberia|hotel|transport|viaje|travel/i.test(vendorLower)) category = 'Travel & Transport';
+    else if (/oficina|papeler|staples|office|material/i.test(vendorLower)) category = 'Office Supplies';
+    else if (/vodafone|movistar|orange|electric|gas|agua|endesa|iberdrola/i.test(vendorLower)) category = 'Utilities';
+    else if (/abogad|gestor|consult|asesor|notari/i.test(vendorLower)) category = 'Professional Services';
+
+    document.getElementById('f-invoiceNo').value = invoiceNo;
+    document.getElementById('f-vendor').value = vendor;
+    document.getElementById('f-date').value = date;
+    document.getElementById('f-total').value = total || '';
+    document.getElementById('f-iva').value = iva || '';
+    const catSelect = document.getElementById('f-category');
+    catSelect.value = category;
+
   } catch(e) {
-    // Demo fallback if API not configured
-    document.getElementById('f-invoiceNo').value = 'TKT-' + Math.floor(Math.random()*9999);
-    document.getElementById('f-vendor').value = 'Demo Vendor';
+    console.warn('Vision API error:', e);
+    // Show empty form for manual entry
+    document.getElementById('f-invoiceNo').value = '';
+    document.getElementById('f-vendor').value = '';
     document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('f-total').value = (Math.random() * 200 + 10).toFixed(2);
-    document.getElementById('f-iva').value = (Math.random() * 30 + 2).toFixed(2);
-    document.getElementById('f-category').value = 'Meals & Entertainment';
+    document.getElementById('f-total').value = '';
+    document.getElementById('f-iva').value = '';
+    showToast('⚠️ AI 읽기 실패 - 직접 입력해주세요', 'error');
   }
 
   document.getElementById('aiCard').style.display = 'none';
