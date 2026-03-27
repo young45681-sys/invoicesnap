@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0044)file:///C:/Users/User/Downloads/index_1.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -10,10 +10,10 @@
 <meta name="theme-color" content="#0a0a0f">
 
 <!-- PWA Manifest -->
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="file:///C:/Users/User/Downloads/manifest.json">
 
 <!-- iOS Splash / Icons (Safari uses these) -->
-<link rel="apple-touch-icon" href="icon-512.png">
+<link rel="apple-touch-icon" href="file:///C:/Users/User/Downloads/icon-512.png">
 
 <title>InvoiceSnap</title>
 <style>
@@ -541,7 +541,7 @@
 <!-- ═══════════════ HOME SCREEN ═══════════════ -->
 <div class="screen active" id="screen-home">
   <div class="status-bar">
-    <span id="clock">9:41</span>
+    <span id="clock">1:28</span>
     <span>●●● 5G 🔋</span>
   </div>
   <div class="home-header">
@@ -550,27 +550,27 @@
   </div>
   <div class="stat-strip">
     <div class="stat-card">
-      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-num" id="stat-total">4</div>
       <div class="stat-label">Entries</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num" id="stat-amount">€0</div>
+      <div class="stat-num" id="stat-amount">€235</div>
       <div class="stat-label">Total</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num" id="stat-iva">€0</div>
+      <div class="stat-num" id="stat-iva">€35</div>
       <div class="stat-label">IVA</div>
     </div>
   </div>
 
   <div class="action-cards">
-    <div class="action-card card-camera" onclick="goto('screen-camera')">
+    <div class="action-card card-camera" onclick="goto(&#39;screen-camera&#39;)">
       <div class="card-icon">📷</div>
       <div class="card-title">Receipt Camera</div>
       <div class="card-desc">Photograph paper receipts · AI extracts data</div>
       <div class="card-arrow">›</div>
     </div>
-    <div class="action-card card-gmail" onclick="goto('screen-gmail')">
+    <div class="action-card card-gmail" onclick="goto(&#39;screen-gmail&#39;)">
       <div class="card-icon">📧</div>
       <div class="card-title">Gmail Invoices</div>
       <div class="card-desc">Connect Gmail · Auto-import email invoices</div>
@@ -581,35 +581,78 @@
   <div class="recent-section">
     <div class="section-header">
       <div class="section-title">Recent Entries</div>
-      <div class="section-link" onclick="goto('screen-sheet')">View all →</div>
+      <div class="section-link" onclick="goto(&#39;screen-sheet&#39;)">View all →</div>
     </div>
     <div class="entry-list" id="recent-list">
-      <div class="empty-state">
-        <div class="icon">🧾</div>
-        <p>No entries yet.<br>Snap a receipt or connect Gmail to begin.</p>
+    <div class="entry-item">
+      <div class="entry-badge badge-mail">📧</div>
+      <div class="entry-info">
+        <div class="entry-vendor">Renfe Cercanías</div>
+        <div class="entry-meta">2024-02-20 · Travel &amp; Transport</div>
+      </div>
+      <div class="entry-amount">
+        <div class="entry-total">€22.80</div>
+        <div class="entry-iva">IVA €1.37</div>
       </div>
     </div>
+  
+    <div class="entry-item">
+      <div class="entry-badge badge-cam">📷</div>
+      <div class="entry-info">
+        <div class="entry-vendor">El Corte Inglés</div>
+        <div class="entry-meta">2024-02-28 · Office Supplies</div>
+      </div>
+      <div class="entry-amount">
+        <div class="entry-total">€134.50</div>
+        <div class="entry-iva">IVA €23.49</div>
+      </div>
+    </div>
+  
+    <div class="entry-item">
+      <div class="entry-badge badge-mail">📧</div>
+      <div class="entry-info">
+        <div class="entry-vendor">Vodafone España</div>
+        <div class="entry-meta">2024-03-01 · Utilities</div>
+      </div>
+      <div class="entry-amount">
+        <div class="entry-total">€29.99</div>
+        <div class="entry-iva">IVA €5.25</div>
+      </div>
+    </div>
+  
+    <div class="entry-item">
+      <div class="entry-badge badge-cam">📷</div>
+      <div class="entry-info">
+        <div class="entry-vendor">Mercadona S.A.</div>
+        <div class="entry-meta">2024-03-15 · Meals &amp; Entertainment</div>
+      </div>
+      <div class="entry-amount">
+        <div class="entry-total">€47.30</div>
+        <div class="entry-iva">IVA €4.73</div>
+      </div>
+    </div>
+  </div>
   </div>
 </div>
 
 <!-- ═══════════════ CAMERA SCREEN ═══════════════ -->
 <div class="screen" id="screen-camera">
   <div class="status-bar">
-    <span id="clock2">9:41</span>
+    <span id="clock2">1:28</span>
     <span>●●● 5G 🔋</span>
   </div>
   <div class="screen-header">
-    <div class="back-btn" onclick="goto('screen-home')">‹</div>
+    <div class="back-btn" onclick="goto(&#39;screen-home&#39;)">‹</div>
     <div class="screen-title">Receipt Camera</div>
   </div>
 
   <!-- Camera Area -->
-  <div class="camera-area" id="cameraArea" onclick="document.getElementById('cameraInput').click()">
+  <div class="camera-area" id="cameraArea" onclick="document.getElementById(&#39;cameraInput&#39;).click()">
     <div class="camera-placeholder" id="cameraPlaceholder">
       <div class="icon">📷</div>
       <p>Tap to take photo or<br>choose from library</p>
     </div>
-    <img id="previewImg" style="display:none;" />
+    <img id="previewImg" style="display:none;">
     <div class="camera-overlay" id="cameraOverlay" style="display:none;">
       <span style="font-size:12px;color:#fff;opacity:0.8;">Tap to retake</span>
     </div>
@@ -617,8 +660,8 @@
   <input type="file" id="cameraInput" accept="image/*" capture="environment" onchange="handlePhoto(this)">
 
   <div class="btn-row">
-    <button class="btn btn-secondary" onclick="document.getElementById('cameraInput').click()">📁 Gallery</button>
-    <button class="btn btn-primary" id="analyzeBtn" onclick="analyzeReceipt()" disabled>✨ Analyze with AI</button>
+    <button class="btn btn-secondary" onclick="document.getElementById(&#39;cameraInput&#39;).click()">📁 Gallery</button>
+    <button class="btn btn-primary" id="analyzeBtn" onclick="analyzeReceipt()" disabled="">✨ Analyze with AI</button>
   </div>
 
   <!-- AI Progress -->
@@ -653,8 +696,8 @@
           <label>Category</label>
           <select id="f-category">
             <option value="">AI classified</option>
-            <option>Meals & Entertainment</option>
-            <option>Travel & Transport</option>
+            <option>Meals &amp; Entertainment</option>
+            <option>Travel &amp; Transport</option>
             <option>Office Supplies</option>
             <option>Utilities</option>
             <option>Professional Services</option>
@@ -673,7 +716,7 @@
         </div>
       </div>
     </div>
-    <button class="btn btn-success" style="width:100%;" onclick="saveEntry('camera')">
+    <button class="btn btn-success" style="width:100%;" onclick="saveEntry(&#39;camera&#39;)">
       ✓ Save to Google Sheets
     </button>
   </div>
@@ -686,7 +729,7 @@
     <span>●●● 5G 🔋</span>
   </div>
   <div class="screen-header">
-    <div class="back-btn" onclick="goto('screen-home')">‹</div>
+    <div class="back-btn" onclick="goto(&#39;screen-home&#39;)">‹</div>
     <div class="screen-title">Gmail Invoices</div>
   </div>
 
@@ -696,7 +739,7 @@
       <div class="gmail-title">Connect your Gmail</div>
       <div class="gmail-desc">InvoiceSnap will scan your inbox for invoices and receipts, then extract key data automatically using AI.</div>
       <button class="google-btn" onclick="connectGmail()">
-        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.3 30.2 0 24 0 14.8 0 6.9 5.4 3 13.3l7.8 6.1C12.7 13 17.9 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.5-.1-3-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.1z"/><path fill="#FBBC05" d="M10.8 28.6A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.1.8-4.6L2.5 13.3A24 24 0 0 0 0 24c0 3.8.9 7.4 2.5 10.7l8.3-6.1z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.6-5.9c-2 1.4-4.6 2.2-7.6 2.2-6.1 0-11.3-3.5-13.2-8.6l-8.3 6.1C6.9 42.6 14.8 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.3 30.2 0 24 0 14.8 0 6.9 5.4 3 13.3l7.8 6.1C12.7 13 17.9 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.5 24.5c0-1.5-.1-3-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.1z"></path><path fill="#FBBC05" d="M10.8 28.6A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.1.8-4.6L2.5 13.3A24 24 0 0 0 0 24c0 3.8.9 7.4 2.5 10.7l8.3-6.1z"></path><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.6-5.9c-2 1.4-4.6 2.2-7.6 2.2-6.1 0-11.3-3.5-13.2-8.6l-8.3 6.1C6.9 42.6 14.8 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
         Sign in with Google
       </button>
     </div>
@@ -721,7 +764,7 @@
     <span>●●● 5G 🔋</span>
   </div>
   <div class="screen-header">
-    <div class="back-btn" onclick="goto('screen-home')">‹</div>
+    <div class="back-btn" onclick="goto(&#39;screen-home&#39;)">‹</div>
     <div class="screen-title">Spreadsheet</div>
   </div>
   <div id="sheetConnected2" style="display:none;" class="sheet-connected-badge">
@@ -729,12 +772,12 @@
   </div>
 
   <div class="filter-chips">
-    <div class="chip active" onclick="filterSheet('all', this)">All</div>
-    <div class="chip" onclick="filterSheet('camera', this)">📷 Receipt</div>
-    <div class="chip" onclick="filterSheet('gmail', this)">📧 Gmail</div>
-    <div class="chip" onclick="filterSheet('Meals & Entertainment', this)">🍽 Meals</div>
-    <div class="chip" onclick="filterSheet('Travel & Transport', this)">✈️ Travel</div>
-    <div class="chip" onclick="filterSheet('Office Supplies', this)">🖊 Office</div>
+    <div class="chip active" onclick="filterSheet(&#39;all&#39;, this)">All</div>
+    <div class="chip" onclick="filterSheet(&#39;camera&#39;, this)">📷 Receipt</div>
+    <div class="chip" onclick="filterSheet(&#39;gmail&#39;, this)">📧 Gmail</div>
+    <div class="chip" onclick="filterSheet(&#39;Meals &amp; Entertainment&#39;, this)">🍽 Meals</div>
+    <div class="chip" onclick="filterSheet(&#39;Travel &amp; Transport&#39;, this)">✈️ Travel</div>
+    <div class="chip" onclick="filterSheet(&#39;Office Supplies&#39;, this)">🖊 Office</div>
   </div>
 
   <div class="sheet-table">
@@ -764,7 +807,7 @@
     <span>●●● 5G 🔋</span>
   </div>
   <div class="screen-header">
-    <div class="back-btn" onclick="goto('screen-home')">‹</div>
+    <div class="back-btn" onclick="goto(&#39;screen-home&#39;)">‹</div>
     <div class="screen-title">Settings</div>
   </div>
   <div class="settings-list">
@@ -778,11 +821,11 @@
         </div>
         <div class="settings-item-arrow">›</div>
       </div>
-      <div class="settings-item">
+      <div class="settings-item" onclick="openApiKeyModal()">
         <div class="settings-item-icon">🔑</div>
         <div class="settings-item-info">
           <div class="settings-item-label">Google API Key</div>
-          <div class="settings-item-desc">Required for Sheets & Gmail sync</div>
+          <div class="settings-item-desc" id="apiKeyPreview">Not configured</div>
         </div>
         <div class="settings-item-arrow">›</div>
       </div>
@@ -790,19 +833,19 @@
         <div class="settings-item-icon">📧</div>
         <div class="settings-item-info">
           <div class="settings-item-label">Gmail Connection</div>
-          <div class="settings-item-desc" id="gmailStatus">Not connected</div>
+          <div class="settings-item-desc" id="gmailStatus">empresa@gmail.com</div>
         </div>
         <div class="settings-item-arrow">›</div>
       </div>
     </div>
 
     <div class="settings-group">
-      <div class="settings-group-title">AI & OCR</div>
-      <div class="settings-item">
+      <div class="settings-group-title">AI &amp; OCR</div>
+      <div class="settings-item" onclick="openClaudeKeyModal()">
         <div class="settings-item-icon">🤖</div>
         <div class="settings-item-info">
           <div class="settings-item-label">Claude AI Key</div>
-          <div class="settings-item-desc">For receipt analysis & auto-categorization</div>
+          <div class="settings-item-desc" id="claudeKeyPreview">Not configured</div>
         </div>
         <div class="settings-item-arrow">›</div>
       </div>
@@ -851,23 +894,23 @@
 
 <!-- ═══════════════ BOTTOM NAV ═══════════════ -->
 <nav class="bottom-nav">
-  <div class="nav-item active" id="nav-home" onclick="goto('screen-home')">
+  <div class="nav-item active" id="nav-home" onclick="goto(&#39;screen-home&#39;)">
     <div class="nav-icon">🏠</div>
     <div class="nav-label">Home</div>
   </div>
-  <div class="nav-item" id="nav-camera" onclick="goto('screen-camera')">
+  <div class="nav-item" id="nav-camera" onclick="goto(&#39;screen-camera&#39;)">
     <div class="nav-icon">📷</div>
     <div class="nav-label">Camera</div>
   </div>
-  <div class="nav-item" id="nav-gmail" onclick="goto('screen-gmail')">
+  <div class="nav-item" id="nav-gmail" onclick="goto(&#39;screen-gmail&#39;)">
     <div class="nav-icon">📧</div>
     <div class="nav-label">Gmail</div>
   </div>
-  <div class="nav-item" id="nav-sheet" onclick="goto('screen-sheet')">
+  <div class="nav-item" id="nav-sheet" onclick="goto(&#39;screen-sheet&#39;)">
     <div class="nav-icon">📊</div>
     <div class="nav-label">Sheets</div>
   </div>
-  <div class="nav-item" id="nav-settings" onclick="goto('screen-settings')">
+  <div class="nav-item" id="nav-settings" onclick="goto(&#39;screen-settings&#39;)">
     <div class="nav-icon">⚙️</div>
     <div class="nav-label">Settings</div>
   </div>
@@ -1252,6 +1295,35 @@ function showToast(msg, type) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
+
+// API KEY MODAL
+function openApiKeyModal() {
+  document.getElementById('apiKeyInput').value = localStorage.getItem('sheetsApiKey') || '';
+  document.getElementById('apiKeyModal').classList.add('show');
+}
+function closeApiKeyModal() { document.getElementById('apiKeyModal').classList.remove('show'); }
+function saveApiKey() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  localStorage.setItem('sheetsApiKey', key);
+  document.getElementById('apiKeyPreview').textContent = key ? key.substring(0,12) + '…' : 'Not configured';
+  closeApiKeyModal();
+  showToast('✓ Google API Key saved', 'success');
+}
+
+// CLAUDE KEY MODAL
+function openClaudeKeyModal() {
+  document.getElementById('claudeKeyInput').value = localStorage.getItem('claudeApiKey') || '';
+  document.getElementById('claudeKeyModal').classList.add('show');
+}
+function closeClaudeKeyModal() { document.getElementById('claudeKeyModal').classList.remove('show'); }
+function saveClaudeKey() {
+  const key = document.getElementById('claudeKeyInput').value.trim();
+  localStorage.setItem('claudeApiKey', key);
+  document.getElementById('claudeKeyPreview').textContent = key ? key.substring(0,12) + '…' : 'Not configured';
+  closeClaudeKeyModal();
+  showToast('✓ Claude AI Key saved', 'success');
+}
+
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 // ── INIT ──
@@ -1261,6 +1333,10 @@ if (state.sheetId) {
 if (state.gmailConnected) {
   document.getElementById('gmailStatus').textContent = state.gmailEmail;
 }
+const savedApiKey = localStorage.getItem('sheetsApiKey');
+if (savedApiKey) document.getElementById('apiKeyPreview').textContent = savedApiKey.substring(0,12) + '…';
+const savedClaudeKey = localStorage.getItem('claudeApiKey');
+if (savedClaudeKey) document.getElementById('claudeKeyPreview').textContent = savedClaudeKey.substring(0,12) + '…';
 
 // ── SERVICE WORKER ──
 if ('serviceWorker' in navigator) {
@@ -1301,5 +1377,39 @@ if (isIOS && !isStandalone && !dismissed) {
   }, 3000);
 }
 </script>
-</body>
-</html>
+
+<!-- API KEY MODAL -->
+<div class="modal-overlay" id="apiKeyModal" onclick="closeApiKeyModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Google API Key</div>
+    <div class="modal-sub">console.cloud.google.com 에서 만든 API 키를 붙여넣으세요</div>
+    <div class="modal-field">
+      <label>API Key</label>
+      <input type="text" id="apiKeyInput" placeholder="AIzaSy...">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-secondary" onclick="closeApiKeyModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveApiKey()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLAUDE KEY MODAL -->
+<div class="modal-overlay" id="claudeKeyModal" onclick="closeClaudeKeyModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Claude AI Key</div>
+    <div class="modal-sub">console.anthropic.com 에서 만든 API 키를 붙여넣으세요</div>
+    <div class="modal-field">
+      <label>API Key</label>
+      <input type="text" id="claudeKeyInput" placeholder="sk-ant-...">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-secondary" onclick="closeClaudeKeyModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClaudeKey()">Save</button>
+    </div>
+  </div>
+</div>
+
+
+
+</body></html>
